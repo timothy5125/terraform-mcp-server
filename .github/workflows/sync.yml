@@ -2,7 +2,7 @@ name: Sync Fork
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # 每天 UTC 0 點執行一次
+    - cron: '0 0 * * *' # 每天 UTC 0 點執行一次
   workflow_dispatch:     # 允許手動觸發
 
 jobs:
@@ -11,13 +11,26 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # 確保能完整 rebase
 
-      - name: Sync with upstream
+      - name: Setup Git identity
         run: |
-          git config --global user.name 'github-actions'
-          git config --global user.email 'github-actions@github.com'
-          git remote add upstream https://github.com/hashicorp/terraform-mcp-server.git
-          git fetch upstream
+          git config --global user.name "timothy5125"
+          git config --global user.email "t1072825@gmail.com" # username@users.noreply.github.com
+
+      - name: Add upstream if not exists
+        run: |
+          git remote | grep upstream || git remote add upstream https://github.com/hashicorp/terraform-mcp-server.git
+
+      - name: Fetch upstream
+        run: git fetch upstream
+
+      - name: Rebase main with upstream/main
+        run: |
           git checkout main
-          git merge upstream/main
-          git push origin main
+          git rebase upstream/main
+
+      - name: Push changes
+        run: git push origin main --force-with-lease
+
