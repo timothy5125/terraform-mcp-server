@@ -2,7 +2,7 @@ name: Sync Fork
 
 on:
   schedule:
-    - cron: '0 0 * * *' # 每天 UTC 0 點執行一次
+    - cron: '0 0 * * *' # 每天 UTC 0 點執行一次（台灣時間早上 8 點）
   workflow_dispatch:     # 允許手動觸發
 
 jobs:
@@ -17,7 +17,7 @@ jobs:
       - name: Setup Git identity
         run: |
           git config --global user.name "timothy5125"
-          git config --global user.email "t1072825@gmail.com" # username@users.noreply.github.com
+          git config --global user.email "t1072825@gmail.com" # 建議用 GitHub 隱私 email
 
       - name: Add upstream if not exists
         run: |
@@ -33,4 +33,15 @@ jobs:
 
       - name: Push changes
         run: git push origin main --force-with-lease
+
+      - name: Notify success
+        if: ${{ success() }}
+        run: echo "✅ 同步成功！Fork 已更新到最新版本。"
+
+      - name: Notify failure
+        if: ${{ failure() }}
+        run: echo "❌ 同步失敗，請檢查衝突或 GitHub Actions 執行記錄。"
+
+
+        
 
