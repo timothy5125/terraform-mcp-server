@@ -73,12 +73,12 @@ func TestIsValidProviderDataType(t *testing.T) {
 	valid := []string{"resources", "data-sources", "functions", "guides", "overview"}
 	invalid := []string{"foo", "bar", ""}
 	for _, v := range valid {
-		if !IsValidProviderDataType(v) {
+		if !IsValidProviderDocumentType(v) {
 			t.Errorf("expected %q to be valid", v)
 		}
 	}
 	for _, v := range invalid {
-		if IsValidProviderDataType(v) {
+		if IsValidProviderDocumentType(v) {
 			t.Errorf("expected %q to be invalid", v)
 		}
 	}
@@ -92,15 +92,15 @@ func TestLogAndReturnError_NilLogger(t *testing.T) {
 }
 
 func TestIsV2ProviderDataType(t *testing.T) {
-	valid := []string{"guides", "functions", "overview"}
+	valid := []string{"guides", "functions", "overview", "actions"}
 	invalid := []string{"resources", "data-sources", "foo"}
 	for _, v := range valid {
-		if !IsV2ProviderDataType(v) {
+		if !IsV2ProviderDocumentType(v) {
 			t.Errorf("expected %q to be valid v2 data type", v)
 		}
 	}
 	for _, v := range invalid {
-		if IsV2ProviderDataType(v) {
+		if IsV2ProviderDocumentType(v) {
 			t.Errorf("expected %q to be invalid v2 data type", v)
 		}
 	}
