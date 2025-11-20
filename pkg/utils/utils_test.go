@@ -70,7 +70,7 @@ func TestIsValidProviderVersionFormat(t *testing.T) {
 }
 
 func TestIsValidProviderDataType(t *testing.T) {
-	valid := []string{"resources", "data-sources", "functions", "guides", "overview"}
+	valid := []string{"resources", "data-sources", "functions", "guides", "overview", "actions", "list-resources"}
 	invalid := []string{"foo", "bar", ""}
 	for _, v := range valid {
 		if !IsValidProviderDocumentType(v) {
@@ -92,7 +92,7 @@ func TestLogAndReturnError_NilLogger(t *testing.T) {
 }
 
 func TestIsV2ProviderDataType(t *testing.T) {
-	valid := []string{"guides", "functions", "overview", "actions"}
+	valid := []string{"guides", "functions", "overview", "actions", "list-resources"}
 	invalid := []string{"resources", "data-sources", "foo"}
 	for _, v := range valid {
 		if !IsV2ProviderDocumentType(v) {
